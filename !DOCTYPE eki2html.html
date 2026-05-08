@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title>やどかり易占い</title>
+    <style>
+        body { text-align: center; font-family: 'Hiragino Mincho ProN', serif; background-color: #f4eee1; color: #333; padding: 50px; }
+        .container { background: #fffaf0; padding: 30px; border-radius: 20px; box-shadow: 0 10px 20px rgba(0,0,0,0.1); display: inline-block; max-width: 400px; border: 2px solid #D2B48C; transition: all 0.5s; }
+        
+        /* イラスト画像のスタイル */
+        .home-image { max-width: 100%; height: auto; border-radius: 15px; margin-bottom: 20px; border: 1px solid #ccc; display: block; margin-left: auto; margin-right: auto;}
+        
+        h1 { font-size: 28px; color: #8B4513; margin-top: 0; }
+        p#message { font-size: 16px; line-height: 1.6; color: #555; }
+        
+        /* 卦（線）を表示するエリア */
+        #gua-area { font-size: 60px; font-weight: bold; margin: 20px 0; color: #333; line-height: 1; }
+
+        .start-button { background: #CD853F; color: white; border: none; padding: 12px 30px; border-radius: 25px; cursor: pointer; font-size: 18px; margin-top: 20px; transition: background 0.3s; box-shadow: 0 4px 0 #A0522D; }
+        .start-button:hover { background: #A0522D; }
+        .start-button:active { position: relative; top: 3px; box-shadow: 0 1px 0 #A0522D; }
+    </style>
+</head>
+<body>
+
+    <div class="container" id="main-container">
+        <!-- 初期：ホーム画面のイラスト -->
+        <img src="home_image.png" alt="やどかり易占いのホームイラスト" class="home-image" id="main-image">
+        
+        <h1 id="title">やどかり易占い</h1>
+        
+        <!-- ここに卦（線）が表示される（最初は空） -->
+        <div id="gua-area"></div>
+
+        <p id="message">
+            「表か裏か」…シンプルな二択の先に、<br>
+            今のあなたへのメッセージが待っています。<br>
+            海からの不思議な託宣を聞いてみませんか？
+        </p>
+        
+        <!-- 占い実行ボタン。 onclick="uranai()" が魔法の言葉 -->
+        <button class="start-button" id="main-button" onclick="uranai()">占いを始める</button>
+    </div>
+
+    <script>
+        function uranai() {
+            // === 1. 易のロジック（仕組み） ===
+            
+            // 8つの結果（卦：け）のデータリスト
+            const guaList = [
+                { symbol: "☰", name: "乾（けん）", msg: "天の恵みあり。迷わず突き進め！絶好調なり。" },
+                { symbol: "☷", name: "坤（こん）", msg: "大地の如く広き心で。受け入れることで道が開ける。" },
+                { symbol: "☵", name: "坎（かん）", msg: "水の流れは険し。今は慎重に、力を蓄える時。" },
+                { symbol: "☲", name: "離（り）", msg: "火の如く情熱的に。美しさが際立つが、熱しすぎに注意。" },
+                { symbol: "☶", name: "艮（ごん）", msg: "山の如く動じず。今は止まり、静かに時を待つべし。" },
+                { symbol: "☱", name: "兌（だ）", msg: "沢の如く悦びあり。笑顔とお喋りで皆を幸せに。" },
+                { symbol: "☴", name: "巽（そん）", msg: "風の如くしなやかに。流れに乗れば、遠くまで行ける。" },
+                { symbol: "☳", name: "震（しん）", msg: "雷の如き衝撃。変化を恐れず、大胆に行動せよ。" }
+            ];
+            
+            // ランダムに0〜7の数字を1つ選ぶ（コイン3回投げる代わり）
+            const randomIndex = Math.floor(Math.random() * guaList.length);
+            const resultGua = guaList[randomIndex];
+
+            // === 2. 画面を書き換える（演出） ===
+            
+            // ホームの画像を消す
+            document.getElementById("main-image").style.display = "none";
+            
+            // タイトルを変える
+            document.getElementById("title").innerText = "託宣";
+            
+            // 卦（線）を表示する
+            document.getElementById("gua-area").innerText = resultGua.symbol;
+            
+            // メッセージを変える
+            document.getElementById("message").innerHTML = `今日のあなたの卦は<br><strong>【${resultGua.name}】</strong><br><br>${resultGua.msg}`;
+            
+            // ボタンの文字を変え、リロードするようにする
+            const button = document.getElementById("main-button");
+            button.innerText = "もう一度占う";
+            button.onclick = function() { location.reload(); }; // クリックでページを再読み込み
+            
+            // コンテナの背景色を少し変える（占った感）
+            document.getElementById("main-container").style.backgroundColor = "#fff";
+        }
+    </script>
+
+</body>
+</html>
