@@ -7,12 +7,22 @@
         body { text-align: center; font-family: 'Hiragino Mincho ProN', serif; background-color: #f4eee1; color: #333; padding: 50px; }
         .container { background: #fffaf0; padding: 30px; border-radius: 20px; box-shadow: 0 10px 20px rgba(0,0,0,0.1); display: inline-block; max-width: 400px; border: 2px solid #D2B48C; transition: all 0.5s; }
         
-        /* イラスト画像のスタイル */
-        .home-image { max-width: 100%; height: auto; border-radius: 15px; margin-bottom: 20px; border: 1px solid #ccc; display: block; margin-left: auto; margin-right: auto;}
-        
-        h1 { font-size: 28px; color: #8B4513; margin-top: 0; }
-        p#message { font-size: 16px; line-height: 1.6; color: #555; }
-        
+     <!-- 1. イラスト画像のスタイル（<style>〜</style> の中に入れてください） -->
+<style>
+    .home-image { 
+        max-width: 100%; 
+        height: auto; 
+        border-radius: 15px; 
+        margin-bottom: 20px; 
+        border: 1px solid #ccc; 
+        display: block; 
+        margin-left: auto; 
+        margin-right: auto;
+    }
+</style>
+
+<!-- 2. 画像を表示する本体（<h1> の上あたりに貼り付けてください） -->
+<img class="home-image" alt="home_image" src="home_image.png" />
         /* 卦（線）を表示するエリア */
         #gua-area { font-size: 60px; font-weight: bold; margin: 20px 0; color: #333; line-height: 1; }
 
