@@ -2,12 +2,12 @@
 <html lang="ja">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>やどかり易占い</title>
     <style>
         body { text-align: center; font-family: 'Hiragino Mincho ProN', serif; background-color: #f4eee1; color: #333; padding: 50px; }
         .container { background: #fffaf0; padding: 30px; border-radius: 20px; box-shadow: 0 10px 20px rgba(0,0,0,0.1); display: inline-block; max-width: 400px; border: 2px solid #D2B48C; transition: all 0.5s; }
         
-        /* イラスト画像のスタイル */
         .home-image { 
             max-width: 100%; 
             height: auto; 
@@ -19,9 +19,9 @@
             margin-right: auto;
         }
 
-        #gua-area { font-size: 60px; font-weight: bold; margin: 20px 0; color: #333; line-height: 1; }
+        #gua-area { font-size: 60px; font-weight: bold; margin: 20px 0; color: #333; line-height: 1; min-height: 60px; }
 
-        .start-button { background: #CD853F; color: white; border: none; padding: 12px 30px; border-radius: 25px; cursor: pointer; font-size: 18px; margin-top: 20px; transition: background 0.3s; box-shadow: 0 4px 0 #A0522D; }
+        .start-button { background: #CD853F; color: white; border: none; padding: 12px 30px; border-radius: 25px; cursor: pointer; font-size: 18px; margin-top: 20px; transition: background 0.3s; box-shadow: 0 4px 0 #A0522D; outline: none; }
         .start-button:hover { background: #A0522D; }
         .start-button:active { position: relative; top: 3px; box-shadow: 0 1px 0 #A0522D; }
     </style>
@@ -29,12 +29,12 @@
 <body>
 
     <div class="container" id="main-container">
-        <!-- 直接URLを指定したイラスト画像 -->
+        <!-- イラスト画像 -->
         <img src="https://github.com/user-attachments/assets/92d393ad-930b-469b-b192-afaa58df726a" alt="やどかり易占いのホームイラスト" class="home-image" id="main-image">
         
         <h1 id="title">やどかり易占い</h1>
         
-        <!-- ここに卦（線）が表示される -->
+        <!-- 占い結果表示エリア -->
         <div id="gua-area"></div>
 
         <p id="message">
@@ -43,11 +43,13 @@
             海からの不思議な託宣を聞いてみませんか？
         </p>
         
+        <!-- ボタン -->
         <button class="start-button" id="main-button" onclick="uranai()">占いを始める</button>
     </div>
 
     <script>
         function uranai() {
+            console.log("占い開始！"); // デバッグ用
             const guaList = [
                 { symbol: "☰", name: "乾（けん）", msg: "天の恵みあり。迷わず突き進め！絶好調なり。" },
                 { symbol: "☷", name: "坤（こん）", msg: "大地の如く広き心で。受け入れることで道が開ける。" },
@@ -62,14 +64,21 @@
             const randomIndex = Math.floor(Math.random() * guaList.length);
             const resultGua = guaList[randomIndex];
 
-            document.getElementById("main-image").style.display = "none";
+            // 画像を隠す
+            const img = document.getElementById("main-image");
+            if(img) img.style.display = "none";
+
+            // 文字を書き換える
             document.getElementById("title").innerText = "託宣";
             document.getElementById("gua-area").innerText = resultGua.symbol;
             document.getElementById("message").innerHTML = `今日のあなたの卦は<br><strong>【${resultGua.name}】</strong><br><br>${resultGua.msg}`;
             
+            // ボタンを「もう一度」にする
             const button = document.getElementById("main-button");
             button.innerText = "もう一度占う";
             button.onclick = function() { location.reload(); };
+            
+            // 背景色変更
             document.getElementById("main-container").style.backgroundColor = "#fff";
         }
     </script>
