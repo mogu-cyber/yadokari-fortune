@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<title>みそひともじ - 短歌音数カウンター</title>
+
+<style>
+body{
+    margin:0;
+    background:#eef4e5;
+    font-family:"Yu Mincho","Hiragino Mincho ProN",serif;
+    color:#2f3b2f;
+}
+
+.container{
+    max-width:850px;
+    margin:40px auto;
+    background:#fcfbf6;
+    border:4px solid #5d7b4b;
+    border-radius:15px;
+    padding:30px;
+    box-shadow:0 8px 20px rgba(0,0,0,.15);
+}
+
+h1{
+    text-align:center;
+    color:#355b32;
+    margin-bottom:5px;
+}
+
+.sub{
+    text-align:center;
+    color:#666;
+    margin-bottom:25px;
+}
+
+textarea{
+    width:100%;
+    height:150px;
+    font-size:22px;
+    padding:15px;
+    border-radius:10px;
+    border:2px solid #8aa174;
+    box-sizing:border-box;
+    background:#fffffb;
+}
+
+button{
+    display:block;
+    margin:20px auto;
+    background:#426b3c;
+    color:white;
+    border:none;
+    padding:12px 40px;
+    font-size:20px;
+    border-radius:10px;
+    cursor:pointer;
+}
+
+button:hover{
+    background:#2f4d2d;
+}
+
+.result{
+    margin-top:30px;
+}
+
+.line{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:10px;
+    border-bottom:1px dashed #bbb;
+    font-size:22px;
+}
+
+.ok{
+    color:green;
+    font-weight:bold;
+}
+
+.ng{
+    color:#b00020;
+    font-weight:bold;
+}
+
+.footer{
+    margin-top:30px;
+    text-align:center;
+    color:#666;
+}
+</style>
+
+</head>
+<body>
+
+<div class="container">
+
+<h1>みそひともじ</h1>
+<div class="sub">三十一音、ゆっくり覚えよう。</div>
+
+<textarea id="text" placeholder="ここに短歌を書いてください"></textarea>
+
+<button onclick="countTanka()">数える</button>
+
+<div class="result" id="result"></div>
+
+<div class="footer">
+超初心者向け Ver.1
+</div>
+
+</div>
+
+<script>
+
+const target=[5,7,5,7,7];
+
+function moraArray(text){
+
+text=text.replace(/\s/g,"");
+
+const arr=[];
+
+for(let i=0;i<text.length;i++){
+
+let c=text[i];
+
+if("ゃゅょャュョ".includes(c)){
+    if(arr.length){
+        arr[arr.length-1]+=c;
+    }else{
+        arr.push(c);
+    }
+}else{
+    arr.push(c);
+}
+
+}
+
+return arr;
+
+}
+
+function countTanka(){
+
+let txt=document.getElementById("text").value;
+
+let mora=moraArray(txt);
+
+let result=document.getElementById("result");
+
+result.innerHTML="";
+
+let index=0;
+
+for(let i=0;i<5;i++){
+
+let part=[];
+
+while(index<mora.length && part.length<target[i]){
+
+part.push(mora[index]);
+index++;
+
+}
+
+if(i==4){
+while(index<mora.length){
+part.push(mora[index]);
+index++;
+}
+}
+
+let count=part.length;
+
+let judge="";
+
+if(count==target[i]){
+judge='<span class="ok">✓ '+count+'</span>';
+}
+else if(count>target[i]){
+judge='<span class="ng">'+count+'（+'+(count-target[i])+'）</span>';
+}
+else{
+judge='<span class="ng">'+count+'（-'+(target[i]-count)+'）</span>';
+}
+
+result.innerHTML+=`
+<div class="line">
+<div>${i+1}句　${part.join("")}</div>
+<div>${judge}</div>
+</div>
+`;
+
+}
+
+}
+
+</script>
+
+</body>
+</html>
